@@ -1,7 +1,7 @@
 from forum.models import Post, Comments
 from supplier.models import Suppliers, Reviews
 
-from .serializers import PostSerializer, CommentsSerializer, ReviewsSerializer, SuppliersSerializer
+from .serializers import PostSerializer, CommentsSerializer, ReviewsSerializer, SuppliersSerializer, InventorySerializer, SalesSerializer
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -59,6 +59,34 @@ class ReviewsView(APIView):
 
     def post(self, request, format=None):
         serializer = ReviewsSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class InventoryView(APIView):
+
+    def get(self, request, format=None):
+        inventory = Inventory.objects.all()
+        serializer = InventorySerializer(inventory, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = InventorySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class SalesView(APIView):
+
+    def get(self, request, format=None):
+        sales = Sales.objects.all()
+        serializer = SalesSerializer(sales, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = SalesSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
