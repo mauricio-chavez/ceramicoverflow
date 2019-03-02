@@ -37,9 +37,7 @@ class CommentsView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class SuppliersView(APIView):
-    """
-    List all snippets, or create a new snippet.
-    """
+
     def get(self, request, format=None):
         suppliers = Suppliers.objects.all()
         serializer = SuppliersSerializer(suppliers, many=True)
@@ -53,9 +51,7 @@ class SuppliersView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ReviewsView(APIView):
-    """
-    List all snippets, or create a new snippet.
-    """
+
     def get(self, request, format=None):
         reviews = Reviews.objects.all()
         serializer = ReviewsSerializer(reviews, many=True)
