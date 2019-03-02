@@ -1,7 +1,7 @@
 from forum.models import Post, Comments
 from supplier.models import Suppliers, Reviews
-
-from .serializers import PostSerializer, CommentsSerializer, ReviewsSerializer, SuppliersSerializer, InventorySerializer, SalesSerializer
+from library.models import Library
+from .serializers import PostSerializer, CommentsSerializer, ReviewsSerializer, SuppliersSerializer, InventorySerializer, SalesSerializer, LibrarySerializer
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -87,6 +87,20 @@ class SalesView(APIView):
 
     def post(self, request, format=None):
         serializer = SalesSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class LibraryView(APIView):
+
+    def get(self, request, format=None):
+        library = Library.objects.all()
+        serializer = LibrarySerializer(library, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = LibrarySerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

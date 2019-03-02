@@ -3,7 +3,7 @@ from rest_framework.fields import CurrentUserDefault
 from forum.models import Post, Comments
 from supplier.models import Suppliers, Reviews
 from administration.models import Inventory, Sales
-
+from library.models import Library
 # class UserSerializer(serializers.ModelSerializer):
 # 	class Meta:
 # 		model = User
@@ -47,3 +47,9 @@ class SalesSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Sales
 		fields = ('id','product', 'quantity')
+
+class LibrarySerializer(serializers.ModelSerializer):
+	book = serializer.SerializerMethodField()
+	class Meta:
+		model = Library
+		fields = ('id','title','book','user')

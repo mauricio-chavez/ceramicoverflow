@@ -7,4 +7,5 @@ urlpatterns = [
     path('supplier/review/', viewsets.ReviewsView.as_view(), name='supplier-review'),
     path('administration/inventory/', viewsets.InventoryView.as_view(), name='inventory'),
     path('administration/sales/', viewsets.SalesView.as_view(), name='sales'),
+    path('library/', viewsets.Library.as_view(), name='library'),
 ]
